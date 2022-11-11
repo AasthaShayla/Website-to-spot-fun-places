@@ -1,0 +1,148 @@
+<% layout('layouts/boilerplate')%>
+
+
+
+
+<!-- <!DOCTYPE html>
+<html>
+    <head>
+        <title>YelpCamp</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+        <link rel="stylesheet" href="/stylesheets/main.css">
+    </head>
+    <body>
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="/">YelpCamp</a>
+            </div>
+            <div class="collapse navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <% if(!currentUser){ %>
+                        <li><a href="/login">Login</a></li>
+                        <li><a href="/register">Sign Up</a></li>
+                    <% } else { %>
+                        <li><a href="#">Signed In As <%= currentUser.username %></a></li>
+                        <li><a href="/logout">Logout</a></li>
+                    <% } %>
+                </ul>
+            </div>
+        </div>
+    </nav> -->
+    
+    <!-- <div class="container">
+        
+        <% if(error && error.length > 0){ %>
+            <div class="alert alert-danger" role="alert">
+                <%= error %>
+            </div>
+        <% } %>
+        <% if(success && success.length > 0){ %>
+            <div class="alert alert-success" role="alert">
+                <%= success %>
+            </div>
+        <% } %>
+    </div> -->
+<div id="cluster-map"></div>
+<div class="container">
+<h1>All Funplaces</h1>
+
+
+<div class="container">
+    <!-- <header class="jumbotron">
+        <div class="container">
+            <h1>Welcome To YelpCamp!</h1>
+            <p>View our hand-picked campgrounds from all over the world</p>
+            <p>
+               <a class="btn btn-primary btn-large" href="/campgrounds/new">Add New Campground</a>
+            </p>
+        </div>
+    </header> -->
+    
+    <div class="row text-center" style="display:flex; flex-wrap: wrap;">
+        <div class="col-md-12">
+            <% if(noMatch !== null) { %>
+            <h3><%= noMatch %></h3>
+            <p>
+               <form action="/campgrounds" method="GET" class="form-inline">
+                   <div class="form-group">
+                       <input type="text" name="search" placeholder="Campground search..." class="form-control">
+                       <input type="submit" value="Search" class="btn btn-default">
+                   </div>
+               </form>
+           </p>
+            <% } %>
+        </div>
+       <% campgrounds.forEach(function(campground){ %>
+           <!-- <div class="col-md-3 col-sm-6">
+               <div class="thumbnail">
+                  <img src="<%= campground.image %>">
+                  <div class="caption">
+                      <h4><%= campground.name %></h4>
+                  </div>
+                  <p>
+                      <a href="/campgrounds/<%= campground._id %>" class="btn btn-primary">More Info</a>
+                  </p>
+               </div>
+           </div> -->
+           <div class="card mb-3" >
+            <div class="row">
+                <div class="col-md-4">
+                    <%if(campground.images.length) {%>
+                    <img class="img-fluid" alt="" src="<%=campground.images[0].url%>">
+                    <% }else {%>
+                    <img class="img-fluid" alt=""
+                        src="https://res.cloudinary.com/douqbebwk/image/upload/v1600103881/YelpCamp/lz8jjv2gyynjil7lswf4.png">
+                    <% } %>
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <h5 class="card-title"><%= campground.title %> </h5>
+        
+                        <p class="card-text"><%= campground.description %></p>
+                        <p class="card-text">
+                            <small class="text-muted"><%= campground.location%></small>
+                        </p>
+                        <a class="btn btn-primary" href="/campgrounds/<%=campground._id%>">View <%=campground.title%></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+       <% }); %>
+   </div>
+</div>
+
+
+<!-- <% for (let campground of campgrounds){%>
+<div class="card mb-3" >
+    <div class="row">
+        <div class="col-md-4">
+            <%if(campground.images.length) {%>
+            <img class="img-fluid" alt="" src="<%=campground.images[0].url%>">
+            <% }else {%>
+            <img class="img-fluid" alt=""
+                src="https://res.cloudinary.com/douqbebwk/image/upload/v1600103881/YelpCamp/lz8jjv2gyynjil7lswf4.png">
+            <% } %>
+        </div>
+        <div class="col-md-8">
+            <div class="card-body">
+                <h5 class="card-title"><%= campground.title %> </h5>
+
+                <p class="card-text"><%= campground.description %></p>
+                <p class="card-text">
+                    <small class="text-muted"><%= campground.location%></small>
+                </p>
+                <a class="btn btn-primary" href="/campgrounds/<%=campground._id%>">View <%=campground.title%></a>
+            </div>
+        </div>
+    </div>
+</div>
+<% }%>
+</div> -->
+<script>
+    const mapToken = '<%-process.env.MAPBOX_TOKEN%>';
+    const campgrounds = { features: <%- JSON.stringify(campgrounds) %>}
+</script>
+
+<script src="/javascripts/clusterMap.js"></script>
